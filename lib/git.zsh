@@ -3,11 +3,43 @@ function git_prompt_info() {
   local ref
   if [[ "$(command git config --get oh-my-zsh.hide-status 2>/dev/null)" != "1" ]]; then
     ref=$(command git symbolic-ref HEAD 2> /dev/null) || \
-    ref=$(command git rev-parse --short HEAD 2> /dev/null) || return 0
+    ref=$(command git describe --always HEAD 2> /dev/null) || return 0
     echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}$(parse_git_dirty)$ZSH_THEME_GIT_PROMPT_SUFFIX"
   fi
 }
 
+test_git_dirty () {
+  xx=$(timeout 1s sleep 15 2> /dev/null)
+  if [ $? -eq 124 ]; then
+    return 124
+  elif [[ -n ${xx} ]]; then
+    return 0
+  fi
+  return 1
+}
+
+git_dirty_timeout () {
+  #-- Modified files
+  xx=$(timeout 1s git status -s $@ 2> /dev/null)
+  test $? -eq 124 && return 124
+  test -n "${xx}" && return 50
+
+  #-- Untracked files (only)
+  xx=$(timeout 1s git status -s -uno $@ 2> /dev/null)
+  test $? -eq 124 && return 124
+  test -n "${xx}" && return 51
+  return 0
+}
+
+my_parse_git_dirty () {
+  git_dirty_timeout
+  case "$?" in
+	'50')  echo "$ZSH_THEME_GIT_PROMPT_DIRTY"       ;;
+	'51')  echo "$ZSH_THEME_GIT_PROMPT_UNTRACKED"   ;;
+	'124') echo "${ZSH_THEME_GIT_PROMPT_TIMEOUT}"   ;;
+	*)     echo "$ZSH_THEME_GIT_PROMPT_CLEAN"   ;;
+  esac
+}
 # Checks if working tree is dirty
 function parse_git_dirty() {
   local STATUS
@@ -186,6 +218,11 @@ function git_prompt_status() {
     STATUS="$ZSH_THEME_GIT_PROMPT_DIVERGED$STATUS"
   fi
   echo $STATUS
+}
+
+git_prompt_status_limit() {
+  timeout 1s git_prompt_status
+  [ $? -eq 124 ] && echo "$ZSH_THEME_GIT_PROMPT_TIMEOUT"
 }
 
 # Outputs the name of the current user
