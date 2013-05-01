@@ -1,0 +1,5 @@
+# Files in this directory form functions for zsh which can be loaded with
+# autoload, like so:
+#
+#   autoload -Uz hello
+#
