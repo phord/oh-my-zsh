@@ -1,0 +1,20 @@
+# Set up auto extension stuff
+alias -s html=$BROWSER
+alias -s org=$BROWSER
+alias -s php=$BROWSER
+alias -s com=$BROWSER
+alias -s net=$BROWSER
+#alias -s png=feh
+#alias -s jpg=feh
+#alias -s gif=feg
+#alias -s sxw=soffice
+#alias -s doc=soffice
+alias -s gz=tar -xzvf
+alias -s bz2=tar -xjvf
+alias -s java=$EDITOR
+alias -s txt=$EDITOR
+alias -s PKGBUILD=$EDITOR
+alias -s c=$EDITOR
+alias -s h=$EDITOR
+alias -s cpp=$EDITOR
+alias -s PART=$EDITOR
