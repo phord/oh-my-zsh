@@ -19,8 +19,13 @@ function git_prompt_info() {
 
   local ref
   ref=$(__git_prompt_git symbolic-ref --short HEAD 2> /dev/null) \
+  || ref=$(__git_prompt_git describe --all HEAD 2> /dev/null) || \
   || ref=$(__git_prompt_git rev-parse --always HEAD 2> /dev/null) \
   || return 0
+  
+    ref=${ref#refs/heads/}
+    ref=${ref#remotes/}
+
 
   # Use global ZSH_THEME_GIT_SHOW_UPSTREAM=1 for including upstream remote info
   local upstream
