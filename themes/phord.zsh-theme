@@ -5,7 +5,7 @@ if [ "$(whoami)" = "root" ]
 fi
 
 # Copied from old version of tonotdo's theme. LSCOLORS modified.
-PROMPT='%{'$CLR'%}%n%{$fg_no_bold[magenta]%}•%{$fg_no_bold[green]%}%3/$(git_prompt_info)%{$reset_color%}» '
+PROMPT='%{'$CLR'%}%n@%m%{$fg_no_bold[magenta]%}•%{$fg_no_bold[green]%}%3/$(git_prompt_info)%{$reset_color%}» '
 
 # Disabled: right-hand-side clock
 #RPROMPT='[%*]'
