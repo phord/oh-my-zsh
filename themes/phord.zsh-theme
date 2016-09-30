@@ -1,7 +1,10 @@
 # from sirthias' theme
 if [ "$(whoami)" = "root" ]
   then local CLR="$fg_bold[red]"
-  else local CLR="$fg_bold[green]"
+  else if [ "$(hostname)" = "phord-X1" ]
+    then local CLR="$fg_bold[green]"
+    else local CLR="$fg_bold[blue]"
+  fi
 fi
 
 # Copied from old version of tonotdo's theme. LSCOLORS modified.
