@@ -1,14 +1,22 @@
 # from sirthias' theme
 if [ "$(whoami)" = "root" ]
   then local CLR="$fg_bold[red]"
-  else if [ "$(hostname)" = "phord-X1" ]
-    then local CLR="$fg_bold[green]"
-    else local CLR="$fg_bold[blue]"
-  fi
+  else
+    case "$(hostname)" in
+
+      phord-[xX]1)   local CLR="$fg_bold[green]"
+        ;;
+
+      dev-phord)  local CLR="$fg_bold[blue]"
+        ;;
+
+      *)          local CLR="$bg[red]$fg_bold[white]"
+        ;;
+    esac
 fi
 
 # Copied from old version of tonotdo's theme. LSCOLORS modified.
-PROMPT='%{'$CLR'%}%n@%m%{$fg_no_bold[magenta]%}•%{$fg_no_bold[green]%}%3/$(git_prompt_info)%{$reset_color%}» '
+PROMPT='%{'$CLR'%}%n@%m%{$reset_color%}%{$fg_no_bold[magenta]%}•%{$fg_no_bold[green]%}%3/$(git_prompt_info)%{$reset_color%}» '
 
 # Disabled: right-hand-side clock
 #RPROMPT='[%*]'
