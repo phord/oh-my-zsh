@@ -25,9 +25,9 @@ PROMPT='%{'$CLR'%}%n@%m%{$reset_color%}%{$fg_no_bold[magenta]%}•%{$fg_no_bold[
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}(%{$fg_no_bold[red]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX=""
 ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[blue]%})"
-ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg_no_bold[yellow]%}⚡%{$fg_bold[blue]%})"
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg_bold[yellow]%}⚡%{$fg_bold[blue]%})"
-ZSH_THEME_GIT_PROMPT_TIMEOUT="%{$fg_bold[yellow]%}??%{$fg_bold[blue]%})"
+ZSH_THEME_GIT_PROMPT_UNTRACKED=":%{$fg_no_bold[yellow]%}ᵘ%{$fg_bold[blue]%})"
+ZSH_THEME_GIT_PROMPT_DIRTY=":%{$fg_bold[yellow]%}ᵈ%{$fg_bold[blue]%})"
+ZSH_THEME_GIT_PROMPT_TIMEOUT=":%{$fg_bold[yellow]%}??%{$fg_bold[blue]%})"
 
 # git theming -- testing
 false && {
