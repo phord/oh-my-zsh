@@ -21,12 +21,14 @@ bindkey "\eOF" end-of-line
 bindkey "\e[H" beginning-of-line
 bindkey "\e[F" end-of-line
 
-rationalise-dot() {
-  if [[ $LBUFFER = *.. ]]; then
-    LBUFFER+=/..
-  else
-    LBUFFER+=.
-  fi
-}
-zle -N rationalise-dot
-bindkey . rationalise-dot
+#
+#rationalise-dot() {
+#  if [[ $LBUFFER = *.. ]]; then
+#    LBUFFER+=/..
+#  else
+#    LBUFFER+=.
+#  fi
+#}
+#zle -N rationalise-dot
+##bindkey . rationalise-dot
+#
