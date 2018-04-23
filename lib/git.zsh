@@ -34,7 +34,7 @@ function git_prompt_info() {
     && upstream=" -> ${upstream}"
   fi
 
-  echo "${ZSH_THEME_GIT_PROMPT_PREFIX}${ref}${upstream}$(parse_git_dirty)${ZSH_THEME_GIT_PROMPT_SUFFIX}"
+  echo "${ZSH_THEME_GIT_PROMPT_PREFIX}${ref}${upstream}$(my_parse_git_dirty)${ZSH_THEME_GIT_PROMPT_SUFFIX}"
 }
 
 test_git_dirty () {
@@ -49,7 +49,7 @@ test_git_dirty () {
 
 git_dirty_timeout () {
   #-- Modified files
-  xx=$(timeout 1s git status -s $@ 2> /dev/null)
+  xx=$(timeout 1s git status --porcelain=v2 $@ 2> /dev/null)
   test $? -eq 124 && return 124
   test -n "${xx}" && return 50
 
@@ -60,15 +60,33 @@ git_dirty_timeout () {
   return 0
 }
 
-my_parse_git_dirty () {
-  git_dirty_timeout
-  case "$?" in
-	'50')  echo "$ZSH_THEME_GIT_PROMPT_DIRTY"       ;;
-	'51')  echo "$ZSH_THEME_GIT_PROMPT_UNTRACKED"   ;;
-	'124') echo "${ZSH_THEME_GIT_PROMPT_TIMEOUT}"   ;;
-	*)     echo "$ZSH_THEME_GIT_PROMPT_CLEAN"   ;;
-  esac
+superscript() {
+	echo -n "$@" | sed "y/0123456789/⁰¹²³⁴⁵⁶⁷⁸⁹/"
 }
+
+subscript() {
+	echo -n "$@" | sed "y/0123456789/₀₁₂₃₄₅₆₇₈₉/"
+}
+
+my_parse_git_dirty () {
+  local xx git_staged git_changed git_conflict git_untracked
+
+  xx=$(command timeout 2s git status --porcelain $@ 2> /dev/null)
+  if test $? -eq 124 ; then echo "$ZSH_THEME_GIT_PROMPT_TIMEOUT" ; return ; fi
+  if test -z "$xx" ; then echo "$ZSH_THEME_GIT_PROMPT_CLEAN"; return ; fi 
+
+  git_staged=$(echo $xx | grep -Ec "^[MARCD][ M]|^[MARC]D")
+  git_changed=$(echo $xx | grep -c "^[MARC ][MD] ")
+  git_conflict=$(echo $xx | grep -Ec "^U.|^.U|^AA|^DD")
+  git_untracked=$(echo $xx | grep -c "^\?")
+  
+  echo -n ":"
+  test "0" -ne $git_staged    && echo -n "$ZSH_THEME_GIT_PROMPT_STAGED"    && superscript $git_staged
+  test "0" -ne $git_conflict  && echo -n "$ZSH_THEME_GIT_PROMPT_CONFLICT"  && superscript $git_conflict
+  test "0" -ne $git_changed   && echo -n "$ZSH_THEME_GIT_PROMPT_DIRTY"     && subscript $git_changed
+  test "0" -ne $git_untracked && echo -n "$ZSH_THEME_GIT_PROMPT_UNTRACKED" && subscript $git_untracked
+}
+
 # Checks if working tree is dirty
 function parse_git_dirty() {
   local STATUS
