@@ -47,18 +47,19 @@ my_parse_git_dirty () {
 
   xx=$(command timeout 2s git status --porcelain $@ 2> /dev/null)
   if test $? -eq 124 ; then echo "$ZSH_THEME_GIT_PROMPT_TIMEOUT" ; return ; fi
-  if test -z "$xx" ; then echo "$ZSH_THEME_GIT_PROMPT_CLEAN"; return ; fi 
+  if test -z "$xx" ; then echo "$ZSH_THEME_GIT_PROMPT_CLEAN"; return ; fi
 
   git_staged=$(echo $xx | grep -Ec "^[MARCD][ M]|^[MARC]D")
   git_changed=$(echo $xx | grep -c "^[MARC ][MD] ")
   git_conflict=$(echo $xx | grep -Ec "^U.|^.U|^AA|^DD")
-  git_untracked=$(echo $xx | grep -c "^\?")
-  
-  echo -n ":"
-  test "0" -ne $git_staged    && echo -n "$ZSH_THEME_GIT_PROMPT_STAGED"    && superscript $git_staged
-  test "0" -ne $git_conflict  && echo -n "$ZSH_THEME_GIT_PROMPT_CONFLICT"  && superscript $git_conflict
-  test "0" -ne $git_changed   && echo -n "$ZSH_THEME_GIT_PROMPT_DIRTY"     && subscript $git_changed
-  test "0" -ne $git_untracked && echo -n "$ZSH_THEME_GIT_PROMPT_UNTRACKED" && subscript $git_untracked
+#  git_untracked=$(echo $xx | grep -c "^\?")
+
+  pstat=""
+  test "0" -ne $git_staged    && pstat="$pstat$ZSH_THEME_GIT_PROMPT_STAGED$(superscript $git_staged)"
+  test "0" -ne $git_conflict  && pstat="$pstat$ZSH_THEME_GIT_PROMPT_CONFLICT$(superscript $git_conflict)"
+  test "0" -ne $git_changed   && pstat="$pstat$ZSH_THEME_GIT_PROMPT_DIRTY$(subscript $git_changed)"
+#  test "0" -ne $git_untracked && pstat="$pstat$ZSH_THEME_GIT_PROMPT_UNTRACKED$(subscript $git_untracked)"
+  test -n "$pstat" && echo -n ":$pstat"
 }
 
 # Checks if working tree is dirty
