@@ -19,7 +19,7 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor root)
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git save-dirs )
+plugins=(git)
 #zsh-syntax-highlighting)
 #command-not-found)
 
