@@ -30,7 +30,7 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor root)
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git common-aliases dircycle docker history sudo )
+plugins=(zsh-history-enquirer git common-aliases dircycle docker history sudo )
 # gitfast -- enabling this breaks my change-detection.  :-(
 #zsh-syntax-highlighting)
 #command-not-found)

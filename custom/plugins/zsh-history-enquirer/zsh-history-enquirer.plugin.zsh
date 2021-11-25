@@ -1,0 +1,1 @@
+/usr/local/lib/node_modules/zsh-history-enquirer/scripts/zsh-history-enquirer.plugin.zsh
