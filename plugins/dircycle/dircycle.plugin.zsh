@@ -52,3 +52,6 @@ zle -N insert-cycledright
 # this conveniently by loading the "xterm with Numeric Keypad" preset.
 bindkey "\e[1;6D" insert-cycledleft
 bindkey "\e[1;6C" insert-cycledright
+
+bindkey '^[[1;3D' insert-cycledleft
+bindkey '^[[1;3C' insert-cycledright

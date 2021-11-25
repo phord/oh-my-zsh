@@ -30,19 +30,14 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor root)
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git)
+plugins=(git common-aliases dircycle docker history sudo )
+# gitfast -- enabling this breaks my change-detection.  :-(
 #zsh-syntax-highlighting)
 #command-not-found)
 
 source $ZSH/oh-my-zsh.sh
 
 setopt nonomatch
-
-# Customize to your needs...
-#export JAVA_HOME=/usr/lib/jvm/jre1.6.0_25
-
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
 
 ### Fix 'less' default switches
 export LESS=-FRX
@@ -55,3 +50,9 @@ export CDPATH=/home/phord/git:/home/phord
 
 # python path point to pure_tools repo parent
 export PYTHONPATH=/home/phord/git:${PYTHONPATH}
+
+## CLOUD-53319
+#source $HOME/bin/agent-fix
+
+#wgcw?
+source $HOME/.profile
