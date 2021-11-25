@@ -19,7 +19,7 @@ function git_prompt_info() {
 
   local ref
   ref=$(__git_prompt_git symbolic-ref --short HEAD 2> /dev/null) \
-  || ref=$(__git_prompt_git describe --all HEAD 2> /dev/null) || \
+  || ref=$(__git_prompt_git describe --all HEAD 2> /dev/null) \
   || ref=$(__git_prompt_git rev-parse --always HEAD 2> /dev/null) \
   || return 0
   
