@@ -30,5 +30,31 @@ setopt nonomatch
 # Customize to your needs...
 #export JAVA_HOME=/usr/lib/jvm/jre1.6.0_25
 
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
+### TODO: chain to .zshrc-local
+
+# No longer needed if pb_client is installed:
+# export PURITY_SRC=$HOME/git/purity
+# export PATH=$PURITY_SRC/pb/bin:$PATH
+# export PYTHONPATH=$PURITY_SRC/pb/pb-py
+# alias pb="$PURITY_SRC/pb/bin/pb"
+
+export LESS=-FRKSX
+
+#Deprecated: Orchestrator virtualenv: https://wiki.purestorage.com/display/psw/Orchestrator
+#export WORKON_HOME=$HOME/.virtualenvs
+#source /usr/local/bin/virtualenvwrapper.sh
+
+# Grep zip files by default, no line numbers
+alias rg='rg -zN'
+
+source ${HOME}/bin/pbtools
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/phord/.sdkman"
+[[ -s "/home/phord/.sdkman/bin/sdkman-init.sh" ]] && source "/home/phord/.sdkman/bin/sdkman-init.sh"
+
+## Python virtualenvwrapper
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=$HOME/Devel
+source /usr/local/bin/virtualenvwrapper.sh
+
