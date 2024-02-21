@@ -32,11 +32,10 @@ setopt nonomatch
 
 ### TODO: chain to .zshrc-local
 
-# No longer needed if pb_client is installed:
-# export PURITY_SRC=$HOME/git/purity
-# export PATH=$PURITY_SRC/pb/bin:$PATH
-# export PYTHONPATH=$PURITY_SRC/pb/pb-py
-# alias pb="$PURITY_SRC/pb/bin/pb"
+export PURITY_SRC=$HOME/git/purity
+export PATH=$PURITY_SRC/pb/bin:$PATH
+export PYTHONPATH=$PURITY_SRC/pb/pb-py
+alias pb="$PURITY_SRC/pb/bin/pb"
 
 export LESS=-FRKSX
 
