@@ -4,7 +4,7 @@ if [ "$(whoami)" = "root" ]
   else
     case "$(hostname)" in
 
-      phord-[xX]1)   local CLR="$fg_bold[green]"
+      phord-[xXtT]1*)   local CLR="$fg_bold[green]"
         ;;
 
       dev-phord)  local CLR="$fg_bold[blue]"
@@ -15,13 +15,19 @@ if [ "$(whoami)" = "root" ]
     esac
 fi
 
-dot='%{$fg_no_bold[magenta]%}•%{$reset_color%}'
+dot='%{$fg_no_bold[red]%}•%{$reset_color%}'
 timestamp='%{$fg_no_bold[white]%}%D{%m/%f} %*%{$reset_color%}'
 # Copied from old version of tonotdo's theme. LSCOLORS modified.
 PROMPT='%{'$CLR'%}%n@%m%{$reset_color%}%{$fg_no_bold[magenta]%}'"${dot}${timestamp}${dot}"'%{$fg_no_bold[green]%}%3/$(git_prompt_info)%{$reset_color%}» '
 
 # Disabled: right-hand-side clock
 #RPROMPT='[%*]'
+
+# Update prompt every 30 seconds
+TMOUT=30
+TRAPALRM() {
+  zle reset-prompt
+}
 
 # git theming
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}(%{$fg_no_bold[red]%}"
