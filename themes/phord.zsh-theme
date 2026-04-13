@@ -4,7 +4,7 @@ if [ "$(whoami)" = "root" ]
   else
     case "$(hostname)" in
 
-      phord-[xX]1)   local CLR="$fg_bold[green]"
+      phord-[xXtT]1*)   local CLR="$fg_bold[green]"
         ;;
 
       dev-phord)  local CLR="$fg_bold[blue]"

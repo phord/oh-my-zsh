@@ -26,11 +26,21 @@ COMPLETION_WAITING_DOTS="true"
 HIST_STAMPS="yyyy-mm-dd"
 
 # CLI syntax highlighting
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor root)
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern regexp root)
+typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES[command]='fg=cyan,bold'
+ZSH_HIGHLIGHT_STYLES[alias]='fg=cyan,bold,underline'
+ZSH_HIGHLIGHT_STYLES[function]='fg=cyan,bold,standout'
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=yellow,bold'
+
+#ZSH_HIGHLIGHT_STYLES[cursor]='bg=blue'
+
+
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(zsh-history-enquirer git common-aliases dircycle docker history sudo )
+# Warning:  zsh-syntax-higlighting must be last
+plugins=(git common-aliases dircycle docker history sudo zsh-autosuggestions zsh-syntax-highlighting)
 # gitfast -- enabling this breaks my change-detection.  :-(
 #zsh-syntax-highlighting)
 #command-not-found)
@@ -49,10 +59,23 @@ alias phtest='/home/phord/git/phtest/phtest/phtest'
 export CDPATH=/home/phord/git:/home/phord
 
 # python path point to pure_tools repo parent
-export PYTHONPATH=/home/phord/git:${PYTHONPATH}
+#export PYTHONPATH=/home/phord/git:${PYTHONPATH}
 
 ## CLOUD-53319
 #source $HOME/bin/agent-fix
 
 #wgcw?
 source $HOME/.profile
+
+PATH=$HOME/bin:$HOME/.local/bin:$PATH
+
+# Use lesspipe from git@github.com:wofr06/lesspipe.git
+LESSOPEN="|/usr/local/bin/lesspipe.sh %s"; export LESSOPEN
+
+# Control+Up/Down moves through history by entries, not by lines
+bindkey "^[[1;5A" up-history
+bindkey  "^[[1;5B" down-history
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
