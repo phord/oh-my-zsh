@@ -19,9 +19,12 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor root)
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
+
 plugins=(git)
+
 #zsh-syntax-highlighting)
 #command-not-found)
+
 
 source $ZSH/oh-my-zsh.sh
 
@@ -48,6 +51,7 @@ alias rg='rg -zN'
 
 source ${HOME}/bin/pbtools
 
+# SDKMAN bullshit
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/home/phord/.sdkman"
 [[ -s "/home/phord/.sdkman/bin/sdkman-init.sh" ]] && source "/home/phord/.sdkman/bin/sdkman-init.sh"
@@ -57,3 +61,15 @@ export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Devel
 source /usr/local/bin/virtualenvwrapper.sh
 
+#pyenv init
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+# Some cybertron bullshit
+eval "$(direnv hook zsh)"
+
+# export keymaster public keys into place
+for f in keymaster-ed25519- keymaster-rsa- ; do 
+	ssh-add -L | grep $f > /home/phord/.ssh/tmp/${f}${USER}.pub 
+done
