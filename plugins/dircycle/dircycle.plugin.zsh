@@ -81,13 +81,10 @@ zle -N insert-cycleddown
 # iTerm2 does not have these key combinations defined by default; you will need
 # to add them under "Keys" in your profile if you want to use this. You can do
 # this conveniently by loading the "xterm with Numeric Keypad" preset.
-
-bindkey '^[[1;3D' insert-cycledleft
-bindkey '^[[1;3C' insert-cycledright
-bindkey '^[[1;3A' insert-cycledup
-bindkey '^[[1;3B' insert-cycleddown
-
 bindkey "\e[1;6D" insert-cycledleft     # Ctrl+Shift+Left
 bindkey "\e[1;6C" insert-cycledright    # Ctrl+Shift+Right
 bindkey "\e[1;6A" insert-cycledup       # Ctrl+Shift+Up
 bindkey "\e[1;6B" insert-cycleddown     # Ctrl+Shift+Down
+
+bindkey '^[[1;3D' insert-cycledleft     # Alt+Left
+bindkey '^[[1;3C' insert-cycledright    # Alt+Right

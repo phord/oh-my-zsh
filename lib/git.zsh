@@ -25,13 +25,13 @@ function _omz_git_prompt_info() {
   # - the short SHA of the current commit
   local ref
   ref=$(__git_prompt_git symbolic-ref --short HEAD 2> /dev/null) \
+  || ref=$(__git_prompt_git describe --tags --exact-match HEAD 2> /dev/null) \
   || ref=$(__git_prompt_git describe --all HEAD 2> /dev/null) \
-  || ref=$(__git_prompt_git rev-parse --always HEAD 2> /dev/null) \
+  || ref=$(__git_prompt_git rev-parse --short --always HEAD 2> /dev/null) \
   || return 0
 
   ref=${ref#refs/heads/}
   ref=${ref#remotes/}
-
 
   # Use global ZSH_THEME_GIT_SHOW_UPSTREAM=1 for including upstream remote info
   local upstream
@@ -43,15 +43,15 @@ function _omz_git_prompt_info() {
   echo "${ZSH_THEME_GIT_PROMPT_PREFIX}${ref:gs/%/%%}${upstream:gs/%/%%}$(my_parse_git_dirty)${ZSH_THEME_GIT_PROMPT_SUFFIX}"
 }
 
-superscript() {
+function superscript() {
 	echo -n "$@" | sed "y/0123456789/⁰¹²³⁴⁵⁶⁷⁸⁹/"
 }
 
-subscript() {
+function subscript() {
 	echo -n "$@" | sed "y/0123456789/₀₁₂₃₄₅₆₇₈₉/"
 }
 
-my_parse_git_dirty () {
+function my_parse_git_dirty () {
   local xx git_staged git_changed git_conflict git_untracked
 
   xx=$(command timeout 2s git status --porcelain $@ 2> /dev/null)
