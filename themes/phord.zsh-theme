@@ -1,30 +1,74 @@
-# from sirthias' theme
-if [ "$(whoami)" = "root" ]
-  then local CLR="$fg_bold[red]"
+
+function prompt_color() {
+  # parse colors from arg: +fg bg
+  if [[ "$#" -eq 0 ]]; then
+    echo '%{$reset_color%}'
+    return
+  fi
+
+  local bold_str='no_bold'
+  if [[ "$1" = \+* ]]; then
+    bold_str='bold'
+    1="${1:1}"
+  fi
+
+  # special case if $1 has a space, it's "fg bg", otherwise, $2 is bg
+  if [[ "$1" = *' '* ]]; then
+    local fg_color="${1%% *}"
+    local bg_color="${1##* }"
   else
-    case "$(hostname)" in
+    local fg_color="$1"
+  fi
 
-      phord-[xXtT]1*)   local CLR="$fg_bold[green]"
-        ;;
+  # build color string
+  color_str+='%{$fg_'${bold_str}'['${fg_color}']%}'
+  if [[ -n "${bg_color}" ]]; then
+    color_str+='%{$bg['${bg_color}']%}'
+  fi
+  echo "$color_str"
+}
 
-      dev-phord)  local CLR="$fg_bold[blue]"
-        ;;
+function prompt_piece() {
+  local color=$(prompt_color "$1")
+  local reset=$(prompt_color)
+  local content="$2"
+  echo "$color$content$reset"
+}
 
-      *)          local CLR="$bg[red]$fg_bold[white]"
-        ;;
-    esac
-fi
+function build_prompt() {
+  local reset=$(prompt_color)
+  local exit_code='%(?..'$(prompt_piece +red '[$?]')')'
+  local timestamp=$(prompt_piece +white '%D{%m/%f} %*')
+  local dot=$(prompt_piece red '•')
 
-dot='%{$fg_no_bold[red]%}•%{$reset_color%}'
-timestamp='%{$fg_no_bold[white]%}%D{%m/%f} %*%{$reset_color%}'
+  # Show user@host in customized color depending on known machines
+  local host_color
+  if [ "$(whoami)" = "root" ]
+    then host_color="+red"
+    else
+      case "$(hostname)" in
+        phord-[xXtT]1*)   host_color="+green"; ;;
+        dev-phord)        host_color="+blue"; ;;
+        *)                host_color="+white red"; ;;
+      esac
+  fi
+
+  local userhost=$(prompt_piece "$host_color" '%n@%m')
+
+  local git_info=$(prompt_piece green '%3/$(git_prompt_info)')
+  local prompt_char='» '
+  local prompt="${exit_code}${userhost}${dot}${timestamp}${dot}${git_info}${prompt_char}"
+  echo "$prompt"
+}
 # Copied from old version of tonotdo's theme. LSCOLORS modified.
-PROMPT='%{'$CLR'%}%n@%m%{$reset_color%}%{$fg_no_bold[magenta]%}'"${dot}${timestamp}${dot}"'%{$fg_no_bold[green]%}%3/$(git_prompt_info)%{$reset_color%}» '
+#PROMPT='%{'$CLR'%}%n@%m%{$reset_color%}%{$fg_no_bold[magenta]%}'"${dot}${timestamp}${dot}"'%{$fg_no_bold[green]%}%3/$(git_prompt_info)%{$reset_color%}» '
+PROMPT="$(build_prompt)"
 
 # Disabled: right-hand-side clock
 #RPROMPT='[%*]'
 
-# Update prompt every 30 seconds
-TMOUT=30
+# Update clock every second
+TMOUT=1
 TRAPALRM() {
   zle reset-prompt
 }
